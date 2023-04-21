@@ -1,0 +1,20 @@
+---
+- name: Provision VM in AWS
+  hosts: localhost
+  gather_facts: false
+  
+  tasks:
+  - name: Launch EC2 Instance
+    amazon.aws.ec2_instance:
+      name: "{{ vm_name }}"
+      region: "{{ aws_region }}"
+      vpc_subnet_id: "{{ subnet_id }}"
+      instance_type: "{{ instance_type }}"
+      key_name: "{{ key_name }}"
+      security_group: "{{ security_group }}"
+      image_id:  "{{ image_id }}"
+      volumes:
+        - device_name: /dev/sda1
+          ebs:
+            volume_size: 30
+            delete_on_termination: true
